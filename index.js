@@ -10,12 +10,11 @@ try {
 
 function installSF(){
   var download = 'wget https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz -q -P /tmp'
-  var createDir1 = 'mkdir ~/cli'
-  var createDir2 = 'mkdir ~/cli/sf'
+  var createDir = 'mkdir -p ~/cli/sf'
   var unzip = 'tar xJf /tmp/sf-linux-x64.tar.xz -C ~/cli/sf --strip-components 1'
   var install = 'echo "`pwd`~/cli/sf/bin" >> $GITHUB_PATH'
   var version = '~/cli/sf/bin/sf --version && ~/cli/sf/bin/sf plugins --core'
-  exec(download+' && '+createDir1+' && '+createDir2+' && '+unzip+' && '+install+' && '+version, function(error, stdout, stderr){
+  exec(download+' && '+createDir+' && '+unzip+' && '+install+' && '+version, function(error, stdout, stderr){
     if(error) throw(stderr)
     core.info(stdout)
     if(core.getInput('sfdx-auth-url')) createAuthFile()
