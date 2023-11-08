@@ -3,17 +3,17 @@ const exec = require('child_process').exec
 const fs = require('fs')
 
 try {
-  installSFDX()
+  installSF()
 } catch (error) {
   core.setFailed(error.message)
 }
 
-function installSFDX(){
-  var download = 'wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz -q -P /tmp'
-  var createDir = 'mkdir sfdx'
-  var unzip = 'tar xJf /tmp/sfdx-linux-x64.tar.xz -C sfdx --strip-components 1'
-  var install = 'echo "`pwd`/sfdx/bin" >> $GITHUB_PATH'
-  var version = 'sfdx/bin/sfdx --version && sfdx/bin/sfdx plugins --core'
+function installSF(){
+  var download = 'wget https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz -q -P /tmp'
+  var createDir = 'mkdir ~/cli/sf'
+  var unzip = 'tar xJf /tmp/sf-linux-x64.tar.xz -C ~/cli/sf --strip-components 1'
+  var install = 'echo "`pwd`~/cli/sf/bin" >> $GITHUB_PATH'
+  var version = '~/cli/sf/bin/sf --version && ~/cli/sf/bin/sf plugins --core'
   exec(download+' && '+createDir+' && '+unzip+' && '+install+' && '+version, function(error, stdout, stderr){
     if(error) throw(stderr)
     core.info(stdout)
@@ -22,13 +22,13 @@ function installSFDX(){
 }
 
 function createAuthFile(){
-  fs.writeFileSync('/tmp/sfdx_auth.txt', core.getInput('sfdx-auth-url'))
+  fs.writeFileSync('/tmp/sf_auth.txt', core.getInput('sfdx-auth-url'))
   authSFDX()
 }
 
 function authSFDX(){
-  var params = '--setdefaultdevhubusername --setdefaultusername -a SFDX-ENV'
-  exec('sfdx/bin/sfdx auth:sfdxurl:store -f /tmp/sfdx_auth.txt '+params, function(error, stdout, stderr){
+  var params = '--set-default-dev-hub --set-default --alias SFDX-ENV'
+  exec('~/cli/sf/bin/sf org login sfdx-url --s /tmp/sf_auth.txt '+params, function(error, stdout, stderr){
     if(error) throw(stderr)
 	core.info(stdout)
   })
