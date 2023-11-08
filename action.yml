@@ -1,9 +1,9 @@
-name: 'Salesforce SFDX CLI Action'
+name: 'Salesforce SF CLI Action'
 author: Felipe Echanique Torres
-description: 'This action allows to use Salesforce SFDX CLI from GitHub Actions'
+description: 'This action allows to use Salesforce SF CLI from GitHub Actions'
 inputs:
-  sfdx-auth-url:
-    description: Authorize a Salesforce org using an SFDX auth URL
+  sf-auth-url:
+    description: Authorize a Salesforce org using an SF auth URL
     required: false
 runs:
   using: 'node12'

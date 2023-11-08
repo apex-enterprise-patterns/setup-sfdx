@@ -22,7 +22,7 @@ function installSF(){
 }
 
 function createAuthFile(){
-  fs.writeFileSync('/tmp/sf_auth.txt', core.getInput('sfdx-auth-url'))
+  fs.writeFileSync('/tmp/sf_auth.txt', core.getInput('sf-auth-url'))
   authSFDX()
 }
 
